@@ -23,7 +23,9 @@ jobs:
           useradd -m u
           echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
           chown -R u:u /build
-      - run: git clone https://aur.archlinux.org/mozc-ut.git
+      - run: |
+          git clone https://aur.archlinux.org/mozc-ut.git
+          chown -R u:u mozc-ut
         working-directory: /build
 
       - run: sudo -u u bash -c 'makepkg -s --noconfirm'
