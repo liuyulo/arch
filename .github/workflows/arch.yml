@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - run: pacman -Syu --noconfirm git base-devel sudo
       - name: Create a build directory and add a non-root user
         run: |
@@ -23,13 +24,14 @@ jobs:
           useradd -m u
           echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
           chown -R u:u /build
-      - run: |
-          git clone https://aur.archlinux.org/mozc-ut.git
-          chown -R u:u mozc-ut
-        working-directory: /build
 
-      - run: sudo -u u bash -c 'makepkg -s --noconfirm'
-        working-directory: /build/mozc-ut
+      - run: |
+          sudo -u u bash -c '
+            git clone https://aur.archlinux.org/mozc-ut.git
+            makepkg -D mozc-ut -s --noconfirm
+            rm mozc-ut/mozc-ut-debug-*.pkg.tar.zst
+          '
+        working-directory: /build
 
       - run: ls -l /build/mozc-ut
 
