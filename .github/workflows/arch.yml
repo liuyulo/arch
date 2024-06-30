@@ -19,4 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: git clone https://aur.archlinux.org/mozc-ut.git
       - run: docker run --rm -v $PWD:/workdir archlinux:latest bash -c "pacman --version"
+        working-directory: mozc-ut
