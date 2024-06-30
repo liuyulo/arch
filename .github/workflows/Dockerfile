@@ -1,8 +1,9 @@
 # Container image that runs your code
 FROM archlinux:latest
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY entrypoint.sh /entrypoint.sh
+RUN useradd -ms /bin/bash u
+USER u
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["/entrypoint.sh"]
+RUN pacman --version
+
+CMD ["echo", "Hello, World!"]

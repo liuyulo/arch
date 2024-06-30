@@ -6,12 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   container: archlinux:latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: pacman -Syu git --noconfirm
+  #     - run: git clone https://aur.archlinux.org/mozc-ut.git
+  #     - run: makepkg -si --noconfirm
+  #       working-directory: mozc-ut
   build:
     runs-on: ubuntu-latest
-    container: archlinux:latest
     steps:
       - uses: actions/checkout@v4
-      - run: pacman -Syu git --noconfirm
-      - run: git clone https://aur.archlinux.org/mozc-ut.git
-      - run: makepkg -si --noconfirm
-        working-directory: mozc-ut
+      - run: docker run --rm -v $PWD:/workdir archlinux:latest bash -c "pacman --version"
