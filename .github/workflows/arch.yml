@@ -11,7 +11,7 @@ jobs:
     container: archlinux
     steps:
       - uses: actions/checkout@v4
-      - run: sudo pacman -Syu --noconfirm
+      - run: pacman -Syu --noconfirm
       - run: git clone https://aur.archlinux.org/mozc-ut.git
       - run: makepkg -si --noconfirm
         working-directory: mozc-ut
