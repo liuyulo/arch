@@ -10,26 +10,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container: archlinux:latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - run: pacman -Syu --noconfirm git base-devel sudo
-      - name: Create a build directory and add a non-root user
-        run: |
-          useradd -m u
-          echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
-          chown -R u:u .
-
-      - run: sudo -u u bash -c 'make mozc-ut'
-
-      - run: ls -l mozc-ut
-
-      - name: Upload built package
-        uses: actions/upload-artifact@v3
-        with:
-          name: mozc-ut
-          path: mozc-ut/*.pkg.tar.zst
+  mozc-ut:
+    uses: ./.github/workflows/makepkg.yml
+    with:
+      name: mozc-ut
+  ibus-mozc:
+    uses: ./.github/workflows/makepkg.yml
+    with:
+      name: ibus-mozc

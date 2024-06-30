@@ -1,0 +1,35 @@
+name: Makepkg
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - run: pacman -Syu --noconfirm git base-devel sudo
+      - name: Create a build directory and add a non-root user
+        run: |
+          useradd -m u
+          echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
+          chown -R u:u .
+
+      - run: sudo -u u bash -c 'make {{ inputs.name }}'
+
+      - run: ls -l {{ inputs.name }}
+      - run: echo 'Run `sudo pacman -U /path/to/package.pkg.tar.zst` to install.' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload built package
+        uses: actions/upload-artifact@v3
+        with:
+          name: '{{ inputs.name }}'
+          path: '{{ inputs.name }}/*.pkg.tar.zst'
+
