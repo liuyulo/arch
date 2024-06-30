@@ -20,23 +20,16 @@ jobs:
       - run: pacman -Syu --noconfirm git base-devel sudo
       - name: Create a build directory and add a non-root user
         run: |
-          mkdir -p /build
           useradd -m u
           echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
-          chown -R u:u /build
+          chown -R u:u .
 
-      - run: |
-          sudo -u u bash -c '
-            git clone https://aur.archlinux.org/mozc-ut.git
-            makepkg -D mozc-ut -s --noconfirm
-            rm mozc-ut/mozc-ut-debug-*.pkg.tar.zst
-          '
-        working-directory: /build
+      - run: sudo -u u bash -c 'make mozc-ut'
 
-      - run: ls -l /build/mozc-ut
+      - run: ls -l mozc-ut
 
       - name: Upload built package
         uses: actions/upload-artifact@v3
         with:
           name: mozc-ut
-          path: /build/mozc-ut/*.pkg.tar.zst
+          path: mozc-ut/*.pkg.tar.zst
