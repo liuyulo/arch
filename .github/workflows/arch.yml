@@ -8,10 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: archlinux
+    container: archlinux:latest
     steps:
       - uses: actions/checkout@v4
-      - run: pacman -Syu --noconfirm
+      # - run: pacman -Syu --noconfirm
       - run: git clone https://aur.archlinux.org/mozc-ut.git
       - run: makepkg -si --noconfirm
         working-directory: mozc-ut
