@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker container
+      - name: Set up Docker container and build package
         uses: addnab/docker-run-action@v3
         with:
           image: archlinux:latest
@@ -25,16 +25,21 @@ jobs:
           run: |
             # Update the package list and install dependencies
             pacman -Syu --noconfirm
-            pacman -S --noconfirm git base-devel
+            pacman -S --noconfirm git base-devel sudo
 
-            # Create a build directory and clone the mozc-ut AUR package
+            # Create a build directory and add a non-root user
             mkdir -p /build
-            cd /build
-            git clone https://aur.archlinux.org/mozc-ut.git
-            cd mozc-ut
+            useradd -m builder
+            echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+            chown -R builder:builder /build
 
-            # Build the package
-            makepkg -si --noconfirm
+            # Switch to the non-root user and build the package
+            sudo -u builder bash -c '
+              cd /build
+              git clone https://aur.archlinux.org/mozc-ut.git
+              cd mozc-ut
+              makepkg -si --noconfirm
+            '
 
       - name: Upload built package
         uses: actions/upload-artifact@v3
