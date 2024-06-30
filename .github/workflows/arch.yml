@@ -1,4 +1,4 @@
-name: CI
+name: Arch
 
 on:
   push:
@@ -7,10 +7,10 @@ on:
 
 jobs:
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     container: archlinux
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command using the runners shell
-      - run: pacman --version
+      - uses: actions/checkout@v4
+      - run: git clone https://aur.archlinux.org/mozc-ut.git
+      - run: makepkg -si --noconfirm
+        working-directory: mozc-ut
