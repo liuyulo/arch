@@ -1,24 +1,43 @@
-name: Arch
+name: Build mozc-ut AUR Package
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   container: archlinux:latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - run: pacman -Syu git --noconfirm
-  #     - run: git clone https://aur.archlinux.org/mozc-ut.git
-  #     - run: makepkg -si --noconfirm
-  #       working-directory: mozc-ut
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - run: git clone https://aur.archlinux.org/mozc-ut.git
-      - run: docker run --rm -v $PWD:/workdir archlinux:latest bash -c "pacman --version"
-        working-directory: mozc-ut
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker container
+        uses: addnab/docker-run-action@v3
+        with:
+          image: archlinux:latest
+          options: --rm --workdir /build
+          run: |
+            # Update the package list and install dependencies
+            pacman -Syu --noconfirm
+            pacman -S --noconfirm git base-devel
+
+            # Create a build directory and clone the mozc-ut AUR package
+            mkdir -p /build
+            cd /build
+            git clone https://aur.archlinux.org/mozc-ut.git
+            cd mozc-ut
+
+            # Build the package
+            makepkg -si --noconfirm
+
+      - name: Upload built package
+        uses: actions/upload-artifact@v3
+        with:
+          name: mozc-ut
+          path: /build/mozc-ut/*.pkg.tar.zst
