@@ -22,14 +22,14 @@ jobs:
           echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
           chown -R u:u .
 
-      - run: sudo -u u bash -c "make {{ inputs.name }}"
+      - run: sudo -u u bash -c "make ${{ inputs.name }}"
 
-      - run: ls -l {{ inputs.name }}
+      - run: ls -l ${{ inputs.name }}
       - run: echo 'Run `sudo pacman -U /path/to/package.pkg.tar.zst` to install.' >> $GITHUB_STEP_SUMMARY
 
       - name: Upload built package
         uses: actions/upload-artifact@v3
         with:
-          name: '{{ inputs.name }}'
-          path: '{{ inputs.name }}/*.pkg.tar.zst'
+          name: '${{ inputs.name }}'
+          path: '${{ inputs.name }}/*.pkg.tar.zst'
 
