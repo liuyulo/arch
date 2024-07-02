@@ -25,6 +25,9 @@ jobs:
           chown -R u:u .
 
       - run: sudo -u u bash -c "make mozc-ut"
+      - run: ls mozc-ut
+      - run: pacman -U --noconfirm mozc-ut/*.pkg.tar.zst
+      - run: pacman -S --noconfirm ibus
       - run: sudo -u u bash -c "make ibus-mozc"
 
       - run: ls -l mozc-ut ibus-mozc
