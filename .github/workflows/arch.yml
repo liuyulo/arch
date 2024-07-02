@@ -31,20 +31,12 @@ jobs:
       - run: sudo -u u bash -c "make ibus-mozc"
 
       - run: ls -l mozc-ut ibus-mozc
-      # - run: echo 'Run `sudo pacman -U /path/to/package.pkg.tar.zst` to install.' >> $GITHUB_STEP_SUMMARY
+      - run: echo 'Run `sudo pacman -U /path/to/package.pkg.tar.zst` to install.' >> $GITHUB_STEP_SUMMARY
 
-      # - name: Upload built package
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: 'mozc-ut'
-      #     path: 'mozc-ut/*.pkg.tar.zst'
-
-
-  # mozc-ut:
-  #   uses: ./.github/workflows/makepkg.yml
-  #   with:
-  #     name: mozc-ut
-  # ibus-mozc:
-  #   uses: ./.github/workflows/makepkg.yml
-  #   with:
-  #     name: ibus-mozc
+      - name: Upload packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: |
+            mozc-ut/*.pkg.tar.zst
+            ibus-mozc/*.pkg.tar.zst
