@@ -1,4 +1,4 @@
-TARGETS=mozc-ut ibus-mozc
+TARGETS=mozc-ut ibus-mozc zoom
 
 $(TARGETS):
 	git clone https://aur.archlinux.org/$@.git
