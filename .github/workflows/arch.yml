@@ -36,7 +36,7 @@ jobs:
           mkdir -p packages
           mv mozc-ut/*.pkg.tar.zst ibus-mozc/*.pkg.tar.zst zoom/*.pkg.tar.zst packages/
       - name: Upload packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: packages
           path: packages
