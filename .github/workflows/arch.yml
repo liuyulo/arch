@@ -26,6 +26,7 @@ jobs:
 
 
       - run: |
+          sudo pacman -Syu --no-confirm
           sudo pacman -S python-gbinder
           sudo -u u bash -c "make waydroid"
       - run: sudo -u u bash -c "make mozc-ut"
