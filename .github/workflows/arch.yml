@@ -37,8 +37,8 @@ jobs:
           mkdir -p packages
           mv */*.pkg.tar.zst packages
           ls packages
-      # - name: Upload packages
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: packages
-      #     path: packages
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: packages
