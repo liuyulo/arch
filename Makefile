@@ -1,4 +1,4 @@
-TARGETS=mozc-ut ibus-mozc zoom
+TARGETS=mozc-ut ibus-mozc zoom waydroid
 
 $(TARGETS):
 	git clone https://aur.archlinux.org/$@.git
