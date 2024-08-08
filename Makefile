@@ -1,4 +1,4 @@
-TARGETS=mozc-ut ibus-mozc zoom waydroid
+TARGETS=mozc-ut ibus-mozc zoom waydroid python-gbinder
 
 $(TARGETS):
 	git clone https://aur.archlinux.org/$@.git

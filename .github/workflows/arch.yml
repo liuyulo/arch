@@ -25,10 +25,7 @@ jobs:
           chown -R u:u .
 
 
-      - run: |
-          sudo pacman -Syu --no-confirm
-          sudo pacman -S python-gbinder
-          sudo -u u bash -c "make waydroid"
+      - run: sudo -u u bash -c "make gbinder waydroid"
       - run: sudo -u u bash -c "make mozc-ut"
       - run: sudo -u u bash -c "make ibus-mozc"
       - run: sudo -u u bash -c "make zoom"
