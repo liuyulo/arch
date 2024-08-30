@@ -24,10 +24,7 @@ jobs:
           echo "u ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/u
           chown -R u:u .
 
-      - run: sudo -u u bash -c "./make.sh libglibutil libgbinder python-gbinder waydroid"
-      # - run: sudo -u u bash -c "./make.sh mozc-ut"
-      # - run: sudo -u u bash -c "./make.sh ibus-mozc"
-      # - run: sudo -u u bash -c "./make.sh zoom"
+      - run: sudo -u u bash -c "./make.sh mozc-ut ibus-mozc zoom"
 
       - run: find -name '*.pkg.tar.zst'
       - run: echo 'Run `sudo pacman -U /path/to/package.pkg.tar.zst` to install.' >> $GITHUB_STEP_SUMMARY
